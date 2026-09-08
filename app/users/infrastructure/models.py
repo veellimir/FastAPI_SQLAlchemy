@@ -1,12 +1,7 @@
-from typing import TYPE_CHECKING
-
-from sqlalchemy import String
+from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.infrastructure.models import BaseORM
-
-if TYPE_CHECKING:
-    from app.lessons.infrastructure.models import LessonsORM
 
 
 class UsersORM(BaseORM):
@@ -16,4 +11,25 @@ class UsersORM(BaseORM):
     password: Mapped[str] = mapped_column(String(15))
     role: Mapped[str] = mapped_column(String(25))
 
-    lessons: Mapped["LessonsORM"] = relationship(back_populates="users")
+    questionnaire: Mapped["QuestionnaireORM | None"] = relationship(
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+
+class QuestionnaireORM(BaseORM):
+    __tablename__ = "questionnaires"
+
+    first_name: Mapped[str] = mapped_column(String(30))
+    last_name: Mapped[str] = mapped_column(String(30))
+    age: Mapped[int | None] = mapped_column(Integer, nullable=False)
+
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        unique=True,
+        nullable=False,
+    )
+    user: Mapped["UsersORM"] = relationship(
+        back_populates="questionnaire",
+    )

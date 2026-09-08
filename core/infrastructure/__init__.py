@@ -1,10 +1,9 @@
-from app.lessons.infrastructure.models import LessonsORM
-from app.users.infrastructure.models import UsersORM
+from app.users.infrastructure.models import UsersORM, QuestionnaireORM
 
 from .models import BaseORM
 
 __all__ = (
     "BaseORM",
-    "LessonsORM",
     "UsersORM",
+    "QuestionnaireORM",
 )
