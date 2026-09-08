@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 
+from api.api_v1 import router as api_v1_router
 from core.config import settings
 from dependecies.functions import init_service
 
@@ -13,8 +14,17 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI()
+app = FastAPI(
+    title="Сервис - Спортивный Клуб",
+    lifespan=lifespan,
+    docs_url="/docs" if settings.ENV != "prod" else None,  # Swagger UI
+    redoc_url="/redoc" if settings.ENV != "prod" else None,  # ReDoc
+    openapi_url="/openapi.json" if settings.ENV != "prod" else None,
+)
 
+origins = ["*"]
+
+app.include_router(api_v1_router)
 
 if __name__ == "__main__":
     uvicorn.run(

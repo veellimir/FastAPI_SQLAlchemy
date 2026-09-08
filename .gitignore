@@ -37,7 +37,7 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Unit test / coverage telebot
 htmlcov/
 .tox/
 .coverage
@@ -88,12 +88,15 @@ celerybeat-schedule
 venv/
 ENV/
 env.bak/
+.env.prod
 .env
-.env-dev
-deploy/.env-prod
+.env.dev
+
 venv.bak/
-docs/
-.todo
+docs
+run.py
+
+pgdata/
 
 # Spyder project settings
 .spyderproject
@@ -105,9 +108,6 @@ docs/
 # mkdocs documentation
 /site
 media
-uploads
-uploaded_files
-deploy
 
 # mypy
 .mypy_cache/
@@ -115,7 +115,10 @@ deploy
 .idea/*
 
 /status_deals_fintablo.txt
-/deploy/user_data.json
-/deploy/Caddyfile
-/.todo/
-/docker-compose-dev.yaml
+/bat
+/vbs
+/docs/
+!/logs/
+.logs
+/logs/
+/uploads/

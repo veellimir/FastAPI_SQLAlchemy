@@ -6,8 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from .config import settings
 
 engine = create_async_engine(
-    settings.connect_db,
-    echo=False,
+    settings.db.DATABASE_URL,
+    echo=settings.db.ECHO_LOG,
     json_serializer=lambda obj: json.dumps(obj, ensure_ascii=False, default=str),
 )
 
