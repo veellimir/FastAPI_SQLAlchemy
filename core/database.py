@@ -1,11 +1,7 @@
-import datetime
 import json
 from collections.abc import AsyncGenerator
-from typing import Annotated
 
-from sqlalchemy import text
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
 from .config import settings
 
@@ -16,13 +12,8 @@ engine = create_async_engine(
 )
 
 async_session_maker = async_sessionmaker(
-    bind=engine,
-    expire_on_commit=True,
-    autoflush=True
+    bind=engine, expire_on_commit=True, autoflush=True
 )
-
-
-
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession]:

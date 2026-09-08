@@ -16,6 +16,4 @@ class UsersORM(BaseORM):
     password: Mapped[str] = mapped_column(String(15))
     role: Mapped[str] = mapped_column(String(25))
 
-    lessons: Mapped["LessonsORM"] = relationship(
-        back_populates="users"
-    )
+    lessons: Mapped["LessonsORM"] = relationship(back_populates="users")
