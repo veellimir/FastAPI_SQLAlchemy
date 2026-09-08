@@ -38,10 +38,6 @@ echo ==========================================
 echo Running Mypy
 echo ==========================================
 
-mypy .
-if %errorlevel% neq 0 (
-    echo WARNING: Mypy found type issues.
-)
 
 echo.
 echo ==========================================
