@@ -41,8 +41,16 @@ def upgrade() -> None:
     )
     op.create_table(
         "questionnaires",
-        sa.Column("first_name", sa.String(length=30), nullable=False),
-        sa.Column("last_name", sa.String(length=30), nullable=False),
+        sa.Column(
+            "first_name",
+            sa.String(length=30),
+            nullable=False,
+        ),
+        sa.Column(
+            "last_name",
+            sa.String(length=30),
+            nullable=False,
+        ),
         sa.Column("age", sa.Integer(), nullable=False),
         sa.Column("user_id", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), nullable=False),
@@ -58,7 +66,9 @@ def upgrade() -> None:
             server_default=sa.text("TIMEZONE('utc', 'now')"),
             nullable=False,
         ),
-        sa.ForeignKeyConstraint(["user_id"], ["users.id"], ondelete="CASCADE"),
+        sa.ForeignKeyConstraint(
+            ["user_id"], ["users.id"], ondelete="CASCADE"
+        ),
         sa.PrimaryKeyConstraint("id"),
         sa.UniqueConstraint("user_id"),
     )

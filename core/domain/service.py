@@ -8,5 +8,5 @@ class SQLAlchemyBaseService[T: BaseORM]:
     def __init__(self, dao: SQLAlchemyBaseDAO[T]) -> None:
         self.dao = dao
 
-    async def get_list(self, session: AsyncSession):
+    async def get_list(self, session: AsyncSession) -> None:
         pass

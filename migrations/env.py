@@ -13,7 +13,8 @@ if config.config_file_name is not None:
 
 target_metadata = BaseORM.metadata
 config.set_main_option(
-    "sqlalchemy.url", f"{settings.db.DATABASE_URL}?async_fallback=True"
+    "sqlalchemy.url",
+    f"{settings.db.DATABASE_URL}?async_fallback=True",
 )
 
 
@@ -38,7 +39,10 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(connection=connection, target_metadata=target_metadata)
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+        )
 
         with context.begin_transaction():
             context.run_migrations()

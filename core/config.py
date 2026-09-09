@@ -1,5 +1,10 @@
 from pydantic import BaseModel
-from pydantic_settings import BaseSettings
+from pydantic_settings import (
+    BaseSettings,
+    SettingsConfigDict,
+)
+
+from core.domain.constant import env, env_file
 
 
 class RunConfig(BaseModel):
@@ -26,17 +31,18 @@ class ApiPrefix(BaseModel):
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=env_file,
+        env_file_encoding="utf-8",
+        env_nested_delimiter="__",
+        extra="allow",
+    )
+
     run: RunConfig = RunConfig()
     db: DataBase
     api: ApiPrefix = ApiPrefix()
 
-    ENV: bool = True
-
-    class Config:
-        env_file = ".env.dev"
-        env_file_encoding = "utf-8"
-        env_nested_delimiter = "__"
-        extra = "allow"
+    ENV: str = env
 
 
 settings = Settings()

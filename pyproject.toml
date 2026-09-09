@@ -18,7 +18,46 @@ dependencies = [
     "pre-commit (>=4.6.2,<5.0.0)"
 ]
 
+[tool.mypy]
+python_version = "3.12"
+strict = true
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 75
+target-version = "py312"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle
+    "W",      # warnings
+    "F",      # pyflakes
+    "I",      # imports
+    "B",      # bugbear
+    "UP",     # modern Python
+    "ANN",    # annotations
+    "ARG",    # unused arguments
+    "C4",     # comprehensions
+    "DTZ",    # datetime/timezone
+    "PTH",    # pathlib
+    "SIM",    # simplifications
+    "T20",    # print()
+    "RET",    # return statements
+    "RUF",    # Ruff-specific
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "ANN",
+]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = false

@@ -1,14 +1,20 @@
 import json
 from collections.abc import AsyncGenerator
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import (
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from .config import settings
 
 engine = create_async_engine(
     settings.db.DATABASE_URL,
     echo=settings.db.ECHO_LOG,
-    json_serializer=lambda obj: json.dumps(obj, ensure_ascii=False, default=str),
+    json_serializer=lambda obj: json.dumps(
+        obj, ensure_ascii=False, default=str
+    ),
 )
 
 async_session_maker = async_sessionmaker(

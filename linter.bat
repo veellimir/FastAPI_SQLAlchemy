@@ -1,47 +1,32 @@
 @echo off
-setlocal ENABLEDELAYEDEXPANSION
+setlocal
 
-set RUST_LOG_STYLE=always
+set RUFF=".venv\Scripts\ruff.exe"
 
-echo ==========================================
-echo Activating virtual environment...
-echo ==========================================
+echo ========================================
+echo Ruff format
+echo ========================================
 
-if exist "%~dp0.venv\Scripts\activate.bat" (
-    CALL "%~dp0.venv\Scripts\activate.bat"
-) else (
-    echo WARNING: VENV not found at "%~dp0.venv"
+%RUFF% format .
+if errorlevel 1 (
+    echo Ruff format failed.
+    exit /b 1
 )
 
 echo.
-echo ==========================================
-echo Running Ruff CHECK + FIX
-echo ==========================================
+echo ========================================
+echo Ruff check
+echo ========================================
 
-ruff check . --fix
-if %errorlevel% neq 0 (
-    echo WARNING: Ruff CHECK returned issues.
+%RUFF% check . --fix
+if errorlevel 1 (
+    echo Ruff check failed.
+    exit /b 1
 )
 
 echo.
-echo ==========================================
-echo Running Ruff FORMAT
-echo ==========================================
-
-ruff format .
-if %errorlevel% neq 0 (
-    echo WARNING: Ruff FORMAT returned issues.
-)
-
-echo.
-echo ==========================================
-echo Running Mypy
-echo ==========================================
-
-
-echo.
-echo ==========================================
-echo Linting Completed
-echo ==========================================
+echo ========================================
+echo All checks passed.
+echo ========================================
 
 endlocal

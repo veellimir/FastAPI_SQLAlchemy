@@ -9,7 +9,7 @@ from dependecies.functions import init_service
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> None:
     init_service(app)
     yield
 
