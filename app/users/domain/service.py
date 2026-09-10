@@ -50,8 +50,6 @@ class UsersService(SQLAlchemyBaseService[UsersORM]):
             session=session, user_id=user_id
         )
 
-        if not current_user:
-            raise UserNotFoundException
         if current_user.questionnaire:
             raise QuestionnaireConflictException
 
@@ -75,7 +73,6 @@ class UsersService(SQLAlchemyBaseService[UsersORM]):
         current_user: UsersORM | None = await self.dao.get_user_by_id(
             session=session, user_id=user_id
         )
-        # TODO: Удалить лишнюю проверку
         if not current_user:
             raise UserNotFoundException
 
