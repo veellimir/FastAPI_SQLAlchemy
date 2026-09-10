@@ -20,9 +20,7 @@ class UserResponseSchem(BaseResponseSchem):
 
     @computed_field
     def first_name(self) -> str | None:
-        return (
-            self.questionnaire.first_name if self.questionnaire else None
-        )
+        return self.questionnaire.first_name if self.questionnaire else None
 
     @computed_field
     def last_name(self) -> str | None:
@@ -31,3 +29,7 @@ class UserResponseSchem(BaseResponseSchem):
     @computed_field
     def age(self) -> int | None:
         return self.questionnaire.age if self.questionnaire else None
+
+
+class CreateQuestionnaireSchem(QuestionnaireResponseSchem):
+    pass

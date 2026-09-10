@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 
-from app.users.infrastructure.schemes import UserResponseSchem
+from app.users.infrastructure.schemes import (
+    CreateQuestionnaireSchem,
+    UserResponseSchem,
+)
 from core.config import settings
 from dependecies.annotations import (
     DBSessionDep,
@@ -24,3 +27,15 @@ async def get_user_by_id(
     user_id: int,
 ) -> UserResponseSchem | None:
     return await service.get_user_by_id(session=session, user_id=user_id)
+
+
+@router.post("/{user_id}", summary="Создание анкеты")
+async def create_questionnaire(
+    session: DBSessionDep,
+    service: UsersServiceDep,
+    user_id: int,
+    data: CreateQuestionnaireSchem,
+) -> UserResponseSchem | None:
+    return await service.create_questionnaire(
+        session=session, user_id=user_id, data_questionnaire=data
+    )
