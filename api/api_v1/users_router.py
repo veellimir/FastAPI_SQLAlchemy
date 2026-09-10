@@ -43,7 +43,7 @@ async def create_questionnaire(
     )
 
 
-@router.patch("/questionnaire_id", summary="Обновление анкеты")
+@router.patch("/{user_id}", summary="Обновление анкеты")
 async def patch_user_with_questionnaire(
     session: DBSessionDep,
     service: UsersServiceDep,
@@ -52,4 +52,15 @@ async def patch_user_with_questionnaire(
 ) -> UserResponseSchem | None:
     return await service.patch_user_by_id_with_questionnaire(
         session=session, user_id=user_id, data_questionnaire=data
+    )
+
+
+@router.delete("/{user_id}", summary="Удаление пользователя и анкеты")
+async def delete_user_with_questionnaire(
+    session: DBSessionDep,
+    service: UsersServiceDep,
+    user_id: int,
+) -> None:
+    await service.delete_user_with_questionnaire(
+        session=session, user_id=user_id
     )

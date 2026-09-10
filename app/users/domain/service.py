@@ -75,6 +75,7 @@ class UsersService(SQLAlchemyBaseService[UsersORM]):
         current_user: UsersORM | None = await self.dao.get_user_by_id(
             session=session, user_id=user_id
         )
+        # TODO: Удалить лишнюю проверку
         if not current_user:
             raise UserNotFoundException
 
@@ -104,3 +105,16 @@ class UsersService(SQLAlchemyBaseService[UsersORM]):
         )
 
         return UserResponseSchem.model_validate(current_user)
+
+    async def delete_user_with_questionnaire(
+        self, session: AsyncSession, user_id: int
+    ) -> None:
+        current_user: UsersORM | None = await self.dao.get_user_by_id(
+            session=session, user_id=user_id
+        )
+        if not current_user:
+            raise UserNotFoundException
+
+        await self.dao.delete_user_with_questionnaire(
+            session=session, current_user=current_user
+        )

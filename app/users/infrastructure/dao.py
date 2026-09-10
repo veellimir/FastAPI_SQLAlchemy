@@ -67,3 +67,13 @@ class UsersDAO(SQLAlchemyBaseDAO):
         await session.flush()
 
         return current_user
+
+    async def delete_user_with_questionnaire(
+        self, session: AsyncSession, current_user: UsersORM
+    ) -> None:
+        await session.delete(current_user)
+
+        if current_user.questionnaire is not None:
+            await session.delete(current_user.questionnaire)
+
+        await session.flush()
