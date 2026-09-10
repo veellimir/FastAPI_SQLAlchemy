@@ -9,6 +9,7 @@ from app.users.infrastructure.models import QuestionnaireORM, UsersORM
 from app.users.infrastructure.schemes import (
     CreateQuestionnaireSchem,
     UserResponseSchem,
+    UsersListResponseSchem,
 )
 from core.domain.service import SQLAlchemyBaseService
 
@@ -18,8 +19,12 @@ class UsersService(SQLAlchemyBaseService[UsersORM]):
         self.dao = dao
         super().__init__(self.dao)
 
-    async def get_users_list(self, session: AsyncSession) -> None:
-        return await self.dao.get_users_list(session=session)
+    async def get_users_list(
+        self, session: AsyncSession
+    ) -> list[UsersListResponseSchem]:
+        users: list[UsersORM] = await self.dao.get_users_list(session=session)
+
+        return [UsersListResponseSchem.model_validate(user) for user in users]
 
     async def get_user_by_id(
         self, session: AsyncSession, user_id: int

@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.users.infrastructure.schemes import (
     CreateQuestionnaireSchem,
     UserResponseSchem,
+    UsersListResponseSchem,
 )
 from core.config import settings
 from dependecies.annotations import (
@@ -16,7 +17,7 @@ router = APIRouter(prefix=settings.api.v1.users, tags=["Пользователи
 @router.get("/list", summary="Получить список пользователей")
 async def get_users_list(
     session: DBSessionDep, service: UsersServiceDep
-) -> None:
+) -> list[UsersListResponseSchem]:
     return await service.get_users_list(session=session)
 
 

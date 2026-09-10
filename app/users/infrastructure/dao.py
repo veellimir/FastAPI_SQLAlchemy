@@ -13,8 +13,11 @@ class UsersDAO(SQLAlchemyBaseDAO):
         self.questionnaire_model = QuestionnaireORM
         super().__init__(UsersORM)
 
-    async def get_users_list(self, session: AsyncSession) -> None:
-        pass
+    async def get_users_list(self, session: AsyncSession) -> list[UsersORM]:
+        stmt = select(self.model).order_by(self.model.username)
+
+        result = await session.execute(stmt)
+        return result.scalars().all()
 
     async def get_user_by_id(
         self, session: AsyncSession, user_id: int

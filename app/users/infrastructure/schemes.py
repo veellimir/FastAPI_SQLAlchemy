@@ -12,6 +12,10 @@ class QuestionnaireResponseSchem(BaseSchem):
     age: int | None = None
 
 
+class UsersListResponseSchem(BaseResponseSchem):
+    username: str
+
+
 class UserResponseSchem(BaseResponseSchem):
     username: str
     questionnaire: QuestionnaireResponseSchem | None = Field(

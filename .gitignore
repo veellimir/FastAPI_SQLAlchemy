@@ -89,7 +89,6 @@ venv/
 ENV/
 env.bak/
 .env.prod
-.env
 .env.dev
 
 venv.bak/
