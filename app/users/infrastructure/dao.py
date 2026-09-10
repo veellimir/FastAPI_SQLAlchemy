@@ -3,7 +3,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from app.users.infrastructure.models import QuestionnaireORM, UsersORM
-from app.users.infrastructure.schemes import CreateQuestionnaireSchem
+from app.users.infrastructure.schemes import (
+    CreateQuestionnaireSchem,
+)
 from core.infrastructure.dao import SQLAlchemyBaseDAO
 
 
@@ -47,3 +49,21 @@ class UsersDAO(SQLAlchemyBaseDAO):
         await session.flush()
 
         return new_questionnaire
+
+    async def patch_user_by_id_with_questionnaire(
+        self,
+        session: AsyncSession,
+        current_user: UsersORM,
+        user_data: dict[str, object],
+        questionnaire_data: dict[str, object],
+    ) -> UsersORM:
+        for field, value in user_data.items():
+            setattr(current_user, field, value)
+
+        if current_user.questionnaire is not None:
+            for field, value in questionnaire_data.items():
+                setattr(current_user.questionnaire, field, value)
+
+        await session.flush()
+
+        return current_user

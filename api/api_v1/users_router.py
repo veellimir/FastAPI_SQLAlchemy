@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from app.users.infrastructure.schemes import (
     CreateQuestionnaireSchem,
+    UpdateUserSchem,
     UserResponseSchem,
     UsersListResponseSchem,
 )
@@ -38,5 +39,17 @@ async def create_questionnaire(
     data: CreateQuestionnaireSchem,
 ) -> UserResponseSchem | None:
     return await service.create_questionnaire(
+        session=session, user_id=user_id, data_questionnaire=data
+    )
+
+
+@router.patch("/questionnaire_id", summary="Обновление анкеты")
+async def patch_user_with_questionnaire(
+    session: DBSessionDep,
+    service: UsersServiceDep,
+    user_id: int,
+    data: UpdateUserSchem,
+) -> UserResponseSchem | None:
+    return await service.patch_user_by_id_with_questionnaire(
         session=session, user_id=user_id, data_questionnaire=data
     )

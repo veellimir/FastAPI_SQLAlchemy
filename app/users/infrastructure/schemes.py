@@ -37,3 +37,7 @@ class UserResponseSchem(BaseResponseSchem):
 
 class CreateQuestionnaireSchem(QuestionnaireResponseSchem):
     pass
+
+
+class UpdateUserSchem(QuestionnaireResponseSchem):
+    username: str
