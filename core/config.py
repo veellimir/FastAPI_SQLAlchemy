@@ -5,6 +5,7 @@ from pydantic_settings import (
 )
 
 from core.domain.constant import env, env_file
+from core.infrastructure.dataclass import CORSSettings
 
 
 class RunConfig(BaseModel):
@@ -44,6 +45,16 @@ class Settings(BaseSettings):
     api: ApiPrefix = ApiPrefix()
 
     ENV: str = env
+
+    @property
+    def cors(self) -> CORSSettings:
+        return CORSSettings(
+            allow_origins=["*", f"http://localhost:{self.run.port}"],
+            allow_credentials=True,
+            allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+            allow_headers=["*"],
+            expose_headers=["X-Total-Count"],
+        )
 
 
 settings = Settings()
