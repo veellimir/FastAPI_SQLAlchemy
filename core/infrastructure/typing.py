@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Annotated
 
 from pydantic import PlainSerializer
-from sqlalchemy import text
+from sqlalchemy import DateTime, text
 from sqlalchemy.orm import mapped_column
 
 
@@ -25,6 +25,8 @@ UPDATE_AT = Annotated[
         onupdate=utc_now,
     ),
 ]
+
+INPUT_USER_DATE = Annotated[datetime, mapped_column(DateTime)]
 
 INT_PK = Annotated[
     int,
