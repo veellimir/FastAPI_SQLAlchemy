@@ -12,3 +12,10 @@ class SQLAlchemyBaseDAO[T: BaseORM]:
         stmt = select(self.model)
         result = await session.execute(stmt)
         return result.scalars().all()
+
+    async def get_object_by_id(
+        self, session: AsyncSession, obj_id: int
+    ) -> T | None:
+        stmt = select(self.model).where(self.model.id == obj_id)
+        result = await session.execute(stmt)
+        return result.scalar_one_or_none()

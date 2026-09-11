@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 
-from app.lessons.infrastructure.schemes import LessonsListResponseSchem
+from app.lessons.infrastructure.schemes import (
+    LessonResponseSchem,
+    LessonsListResponseSchem,
+)
 from core.config import settings
 from dependecies.annotations import (
     DBSessionDep,
@@ -15,3 +18,12 @@ async def get_list_lessons(
     session: DBSessionDep, service: LessonServiceDep
 ) -> list[LessonsListResponseSchem]:
     return await service.get_list_lessons(session=session)
+
+
+@router.get("/{lesson_id}", summary="Получить занятие по ID")
+async def get_lesson_by_id(
+    session: DBSessionDep, service: LessonServiceDep, lesson_id: int
+) -> LessonResponseSchem | None:
+    return await service.get_lesson_by_id(
+        session=session, lesson_id=lesson_id
+    )
