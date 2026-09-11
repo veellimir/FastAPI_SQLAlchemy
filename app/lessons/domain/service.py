@@ -1,10 +1,14 @@
+from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.lessons.domain.exceptions import LessonNotFoundException
 from app.lessons.infrastructure.dao import LessonsDAO
 from app.lessons.infrastructure.models import LessonsORM
 from app.lessons.infrastructure.schemes import (
     LessonResponseSchem,
     LessonsListResponseSchem,
+    UpdateLessonSchem,
 )
 from core.domain.service import SQLAlchemyBaseService
 
@@ -31,4 +35,33 @@ class LessonsService(SQLAlchemyBaseService[LessonsORM]):
         current_lesson: LessonsORM | None = await self.dao.get_object_by_id(
             session=session, obj_id=lesson_id
         )
+        if not current_lesson:
+            raise LessonNotFoundException
+
         return LessonResponseSchem.model_validate(current_lesson)
+
+    # TODO: create lesson method
+
+    async def patch_lesson_by_id(
+        self,
+        session: AsyncSession,
+        lesson_id: int,
+        data_lesson: UpdateLessonSchem,
+    ) -> LessonResponseSchem | None:
+        current_lesson: LessonsORM | None = await self.dao.get_object_by_id(
+            session=session, obj_id=lesson_id
+        )
+        if not current_lesson:
+            raise LessonNotFoundException
+
+        update_lesson: dict[str, Any] = {
+            "title": data_lesson.title,
+            "description": data_lesson.description,
+            "start_date": data_lesson.start_date,
+            "end_date": data_lesson.end_date,
+        }
+
+        result: LessonsORM = await self.dao.patch_lesson_by_id(
+            session=session, lesson=current_lesson, data_lesson=update_lesson
+        )
+        return LessonResponseSchem.model_validate(result)

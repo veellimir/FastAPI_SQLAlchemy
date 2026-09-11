@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from app.lessons.infrastructure.schemes import (
     LessonResponseSchem,
     LessonsListResponseSchem,
+    UpdateLessonSchem,
 )
 from core.config import settings
 from dependecies.annotations import (
@@ -26,4 +27,19 @@ async def get_lesson_by_id(
 ) -> LessonResponseSchem | None:
     return await service.get_lesson_by_id(
         session=session, lesson_id=lesson_id
+    )
+
+
+# TODO: create lesson
+
+
+@router.patch("/{lesson_id}", summary="Обновить занятие по ID")
+async def patch_lesson_by_id(
+    session: DBSessionDep,
+    service: LessonServiceDep,
+    lesson_id: int,
+    data: UpdateLessonSchem,
+) -> LessonResponseSchem | None:
+    return await service.patch_lesson_by_id(
+        session=session, lesson_id=lesson_id, data_lesson=data
     )

@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 from core.infrastructure.schemas import BaseResponseSchem
 from core.infrastructure.typing import CustomDate
 
@@ -7,6 +9,13 @@ class LessonsListResponseSchem(BaseResponseSchem):
 
 
 class LessonResponseSchem(LessonsListResponseSchem):
-    description: str | None = None
     start_date: CustomDate
     end_date: CustomDate
+    description: str | None = None
+
+
+class UpdateLessonSchem(BaseModel):
+    title: str
+    start_date: CustomDate
+    end_date: CustomDate
+    description: str | None = None
