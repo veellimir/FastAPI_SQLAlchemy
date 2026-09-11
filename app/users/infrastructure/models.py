@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import (
     Mapped,
@@ -6,6 +8,9 @@ from sqlalchemy.orm import (
 )
 
 from core.infrastructure.models import BaseORM
+
+if TYPE_CHECKING:
+    from app.lessons.infrastructure.models import UserLessonORM
 
 
 class UsersORM(BaseORM):
@@ -18,6 +23,11 @@ class UsersORM(BaseORM):
     questionnaire: Mapped["QuestionnaireORM | None"] = relationship(
         back_populates="user",
         uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+    user_lessons: Mapped[list["UserLessonORM"]] = relationship(
+        back_populates="user",
         cascade="all, delete-orphan",
     )
 
