@@ -1,13 +1,9 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from core.infrastructure.associations_models import UserLessonORM
 from core.infrastructure.models import BaseORM
 from core.infrastructure.typing import INPUT_USER_DATE
-
-if TYPE_CHECKING:
-    from core.infrastructure.associations_models import UserLessonORM
 
 
 class LessonsORM(BaseORM):

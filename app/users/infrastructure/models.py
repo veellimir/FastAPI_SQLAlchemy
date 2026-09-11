@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import (
     Mapped,
@@ -7,10 +5,8 @@ from sqlalchemy.orm import (
     relationship,
 )
 
+from app.lessons.infrastructure.models import UserLessonORM
 from core.infrastructure.models import BaseORM
-
-if TYPE_CHECKING:
-    from app.lessons.infrastructure.models import UserLessonORM
 
 
 class UsersORM(BaseORM):
